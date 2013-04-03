@@ -5,7 +5,17 @@ pdfsplit-maven-plugin is a simple plugin for maven that provides a way for your 
 
 Example
 -------
+Add the repository
+```xml
+<pluginRepositories>
+  <pluginRepository>
+    <id>pdfsplit-plugin</id>
+    <url>https://raw.github.com/zch/maven/releases/</url>
+  </pluginRepository>
+</pluginRepositories>
+```
 
+Add the plugin
 ```xml
 <plugin>
   <groupId>com.github.zch</groupId>
@@ -20,7 +30,7 @@ Example
       </goals>
       <configuration>
           <inputUrl>https://vaadin.com/download/book-of-vaadin/vaadin-7/pdf/book-of-vaadin.pdf</inputUrl>
-          <pageRange>479-504</pageRange>
+          <pageRange>479-506</pageRange>
           <outFile>${project.build.directory}/chapter.pdf</outFile>
       </configuration>
     </execution>
