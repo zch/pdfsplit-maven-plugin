@@ -30,10 +30,19 @@ Add the plugin
       </goals>
       <configuration>
           <inputUrl>https://vaadin.com/download/book-of-vaadin/vaadin-7/pdf/book-of-vaadin.pdf</inputUrl>
-          <pageRange>479-506</pageRange>
+          <chapter>Chapter 22. Mobile Applications with TouchKit</chapter>
+<!--          <pageRange>479-506</pageRange>-->
           <outFile>${project.build.directory}/chapter.pdf</outFile>
       </configuration>
     </execution>
   </executions>
 </plugin>
 ```
+
+The parameters are:
+- inputUrl: The URL for the PDF document from which to extract something
+- outFile: The file where the extracted pages should be stored
+- chapter: The name of the chapter to extract, e.g. "Chapter 22. Mobile Applications with TouchKit" to extract that chapter from Book of Vaadin
+- pageRange: A range of pages given as start-end, e.g. "479-506", this parameter will only be used if no chapter is given
+
+Generally you will want to specify either the chapter parameter or the pageRange parameter, not both as only the chapter parameter will be respected in that case.

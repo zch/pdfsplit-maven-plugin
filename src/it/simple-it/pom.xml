@@ -28,7 +28,8 @@
             </goals>
             <configuration>
                 <inputUrl>https://vaadin.com/download/book-of-vaadin/vaadin-7/pdf/book-of-vaadin.pdf</inputUrl>
-                <pageRange>479-504</pageRange>
+                <!--<pageRange>479-504</pageRange>-->
+                <chapter>Chapter 22. Mobile Applications with TouchKit</chapter>
                 <outFile>${project.build.directory}/chapter.pdf</outFile>
             </configuration>
           </execution>
