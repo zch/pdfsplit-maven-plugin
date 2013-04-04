@@ -19,10 +19,17 @@
 
     <distributionManagement>
         <repository>
-            <id>virtuallypreinstalled-scp</id>
-            <url>scpexe://dev@virtuallypreinstalled.com:5110/home/dev/ROOT/maven</url>
+            <id>github-maven</id>
+            <url>git:releases://git@github.com:zch/maven.git</url>
         </repository>
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>synergian-repo</id>
+            <url>https://raw.github.com/synergian/wagon-git/releases</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -88,9 +95,9 @@
         </plugins>
         <extensions>
             <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-beta-6</version>
+                <groupId>ar.com.synergian</groupId>
+                <artifactId>wagon-git</artifactId>
+                <version>0.1.4</version>
             </extension>
         </extensions>
     </build>
