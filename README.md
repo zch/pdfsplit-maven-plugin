@@ -20,7 +20,7 @@ Add the plugin
 <plugin>
   <groupId>com.github.zch</groupId>
   <artifactId>pdfsplit-maven-plugin</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <executions>
     <execution>
       <id>pdfsplit</id>
