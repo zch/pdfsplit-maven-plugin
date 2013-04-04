@@ -72,25 +72,26 @@ public class PdfSplitMojo extends AbstractMojo {
             } else {
                 getLog().error("No chapter or page range defined, not doing anything");
             }
+            doc.close();
         } catch (IOException e) {
             throw new MojoExecutionException("Couldn't load PDF", e);
         }
     }
 
-    private void extractChapter() throws MojoExecutionException {
+    private List<PDPage> allPages;
+    void extractChapter() throws MojoExecutionException {
+        allPages = doc.getDocumentCatalog().getAllPages();
         PDDocumentOutline root = doc.getDocumentCatalog().getDocumentOutline();
         recurseExtractChapter(root.getFirstChild());
     }
 
-    private void recurseExtractChapter(PDOutlineItem item) throws MojoExecutionException {
+    void recurseExtractChapter(PDOutlineItem item) throws MojoExecutionException {
         while (item != null) {
             if (item.getTitle().equals(chapter)) {
                 try {
                     PDPage page = item.findDestinationPage(doc);
-                    PDPage page2 = item.getNextSibling().findDestinationPage(doc);
-                    List<PDPage> allPages = doc.getDocumentCatalog().getAllPages();
                     int start = allPages.indexOf(page) + 1;
-                    int end = allPages.indexOf(page2);
+                    int end = findFirstPageNumOfNextSection(doc, item);
                     extractPageRange(start, end);
                 } catch (MojoExecutionException e) {
                     throw e;
@@ -104,7 +105,18 @@ public class PdfSplitMojo extends AbstractMojo {
         }
     }
 
-    private void extractPageRange(int start, int end) throws MojoExecutionException {
+    int findFirstPageNumOfNextSection(PDDocument doc, PDOutlineItem item) throws IOException {
+        if (item.getNextSibling() != null) {
+            return allPages.indexOf(item.getNextSibling().findDestinationPage(doc));
+        } else {
+            if (item.getParent() instanceof PDDocumentOutline) {
+                return doc.getNumberOfPages();
+            }
+            return findFirstPageNumOfNextSection(doc, (PDOutlineItem) item.getParent());
+        }
+    }
+
+    void extractPageRange(int start, int end) throws MojoExecutionException {
         try {
             PageExtractor extractor = new PageExtractor(doc, start, end);
             PDDocument extracted = extractor.extract();
@@ -112,6 +124,7 @@ public class PdfSplitMojo extends AbstractMojo {
             FileOutputStream outputStream = new FileOutputStream(outFile);
             extracted.save(outputStream);
             outputStream.close();
+            extracted.close();
         } catch (IOException e) {
             throw new MojoExecutionException("Couldn't extract pages from PDF", e);
         } catch (COSVisitorException e) {
@@ -119,11 +132,19 @@ public class PdfSplitMojo extends AbstractMojo {
         }
     }
 
-    private int getEndPage() {
+    int getEndPage() {
         return Integer.valueOf(pageRange.split("-")[1]);
     }
 
-    private int getStartPage() {
+    int getStartPage() {
         return Integer.valueOf(pageRange.split("-")[0]);
+    }
+
+    public void setInputUrl(URL inputUrl) {
+        this.inputUrl = inputUrl;
+    }
+
+    public void setChapter(String chapter) {
+        this.chapter = chapter;
     }
 }

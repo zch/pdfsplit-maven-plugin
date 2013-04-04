@@ -4,7 +4,7 @@
 
     <groupId>com.github.zch</groupId>
     <artifactId>pdfsplit-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>maven-plugin</packaging>
 
     <name>maven-pdfsplit-plugin Maven Plugin</name>
@@ -51,6 +51,12 @@
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
